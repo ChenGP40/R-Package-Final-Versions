@@ -1,0 +1,349 @@
+/* Reset and Debugging */
+* {
+    /* outline: solid red 1px; */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Text Types */
+body, footer {
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+footer {
+    max-width: 65%;
+    margin: 0 auto;
+    border-top: 1px solid black;
+    padding: 2em;
+    line-height: 1.75;
+}
+
+p {
+    font-size: 16px;
+    text-align: left;
+    line-height: 1.75;
+    padding-top: 1em;
+}
+
+a {
+    text-decoration: none;
+    color:#337ab7;
+    transition: .3s ease;
+}
+
+a:hover, .sideNavLinks:hover {
+    color:#16446b;
+    cursor: pointer;
+    transition: .3s ease;
+}
+
+li {
+    list-style-type: none;
+}
+
+hr {
+    max-width: 50%;
+}
+
+h1 {
+    background: #e8eff5;
+    background: -moz-linear-gradient(top, #e8eff5 0%, #dee7f0 100%);
+    background: -webkit-linear-gradient(top, #e8eff5 0%,#dee7f0 100%);
+    background: linear-gradient(to bottom, #e8eff5 0%,#dee7f0 100%);
+    padding: .5em 0;
+    color: #0E467A;
+    font-size: 60px;
+    font-weight: normal;
+    text-align: center;
+}
+
+h2 {
+    font-size: 45px;
+    font-weight: normal;
+    color: #272727;
+    text-align: center;
+}
+
+h3 {
+    font-size: 120%;
+    font-weight: bold;
+    margin-top: 1.5em;
+}
+
+/* Navigation */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    background: #31afe9;
+}
+
+.navbarHeader {
+    flex: 100vw;
+    font-size: 300%;
+    font-weight: bold;
+    padding: 10px;
+    background: #094e74;
+    color: white;
+    text-align: center;
+}
+
+.navigationLinks {
+    color: black;
+}
+
+.navigation {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: .8em;
+    font-weight: bold;
+    font-size: 150%;
+    text-align: center;
+}
+
+.navbarHeader:hover, .navigationLinks:hover {
+    color: white;
+    cursor: pointer;
+}
+
+.selected {
+    color: white;
+    font-weight: bold;
+}
+
+/* Main */
+.boxLayout {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    max-width: 85%;
+    margin: 0 auto;
+}
+
+.box {
+    position: relative;
+    margin: 3em auto;
+    padding: 0;
+    width: 20vw;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    justify-self: center;
+    text-align: center;
+    cursor: pointer;
+}
+
+.boxImg {
+    width:100%; 
+    height:100%;
+    object-fit: cover;
+    transition: transform 0.5s, opacity 0.5s;
+}
+
+.boxImgText {
+    background-color: #f4f7fa;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: fit-content;
+    transform: translate(-50%, -50%);
+    transition: transform 0.5s, opacity 0.5s;
+    z-index: 2;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 1em 0;
+
+}
+
+.gradientOverlay {
+    background: linear-gradient(rgb(90, 179, 252), blue);
+    opacity: 50%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transition: transform 0.5s, opacity 0.5s;
+}
+
+.descriptionText {
+    position: absolute;
+    top: 0%;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: transform 0.5s, opacity 0.5s;
+    z-index: 1;
+    text-align: left;
+    padding: 1.5em;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+.box:hover > .descriptionText {
+    opacity: 1;
+    outline: 3px solid black;
+}
+
+.box:hover > .boxImg, .box:hover > .boxImgText {
+    opacity: 0;
+}
+
+
+/* Side Nav */
+.sideContainer {
+    grid-column: 1 / 2;
+}
+
+.sideNavLinks {
+    font-size: 16px;
+    color: #337ab7;
+    padding: .3em;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Info */
+.toolInfo {
+    max-width: 61%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4.5em;
+    margin-top: 4.5em;
+}
+
+.info {
+    grid-column: 2 / 5;
+    margin-bottom: 2em;
+}
+
+.indent {
+    padding-left: 2em;
+}
+
+.descriptionBlock {
+    display: block;
+    margin-top: .5em;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
+.codeBlock {
+    display: block;
+    padding: .5em;
+    margin-top: .5em;
+    font-size: 13px;
+    line-height: 1.75;
+    color: #333;
+    /* white-space: pre-wrap; */
+    word-break: break-all;
+    word-wrap: break-word;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow-x: auto;
+}
+
+.kw {
+    color: #007020;
+    font-weight: bold;
+}
+
+.str {
+    color: #4070a0;
+}
+
+.dt {
+    color: #902000;
+}
+
+.comment {
+    color: #60a0b0;
+    font-style: italic;
+}
+
+.extraPadding {
+    padding-top: 2em;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.center {
+    text-align: center;
+}
+
+/* Download */
+#downloadForm {
+    max-width: 61%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    column-gap: 1em;
+}
+
+label {
+    margin-top: 1.5em;
+    grid-column: span 6;
+}
+
+.textBox {
+    margin-top: .5em;
+    padding: .5em;
+    grid-column: span 3;
+}
+
+.full {
+    grid-column: span 6;
+}
+
+.button {
+    background-color: black;
+    color: white;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: .5em;
+    cursor: pointer;
+    margin-top: 2em;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 15px;
+    text-align: center;
+}
+
+.button:hover, .downloadBtn:hover {
+    background-color: white;
+    color: black;
+    transition: .3s;
+}
+
+#submitInfo {
+    grid-column: 3 / 5;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: .2;
+}
+
+.downloadBtn {
+    display: block;
+    margin: 1em auto;
+    max-width: 10em;
+    background-color: black;
+    color: white;
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: .5em;
+    cursor: pointer;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 15px;
+    text-align: center;
+}

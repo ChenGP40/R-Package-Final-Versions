@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCA-PAM50</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="">
+    <!-- <link rel="icon" type="image/x-icon" href="images/logo.png"> -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<form id="downloadForm" action="php/downloadInc.php" method="post">
+    <label for="name">Full name:</label>
+    <input type="text" class="textBox" name="firstName" placeholder="First" required onkeyup="checkForm()">
+    <input type="text" class="textBox" name="lastName" placeholder="Last" required onkeyup="checkForm()">
+    <label for="email">Email address:</label>
+    <input type="email" id="emailInput" class="textBox full" name="email" placeholder="johndoe@gmail.com" required onkeyup="checkForm()">
+    <input type="submit" id="submitInfo" class="button" name="submitInfo" value="Submit" disabled="">
+</form>
+
+<script src="js/javascript.js"></script>

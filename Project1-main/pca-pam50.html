@@ -38,7 +38,7 @@
                 <li id="instructionsTriggerSubpage" class="sideNavLinks indent">PCA-PAM50 Instructions</li>
                 <li id="instructionsTriggerSubpageTwo" class="sideNavLinks indent">Bioclassifier Instructions</li>
             <li id="faqTrigger" class="sideNavLinks">Frequently Asked Questions</li>
-            <li id="downloadTrigger" class="sideNavLinks">Download</li>
+            <li id="installTrigger" class="sideNavLinks">Install</li>
             <li id="newsTrigger" class="sideNavLinks">News and Updates</li>
         </ul>
     </div>
@@ -327,17 +327,21 @@ my.plotPCA(XSet, <span class="dt">intgroup =</span> pData$condition, <span class
             <h2>Frequently Asked Questions</h2>
             <p class="center"> Nothing for now, check back later! </p>
         </div>
-        <div id="downloadPage" class="hidden">
-            <h2>Download</h2>
-            <p class="center"> To download PCA-PAM50, please enter your full name and email address. </p>
-            <form id="downloadForm" action="php/downloadInc.php" method="post">
+        <div id="installPage" class="hidden">
+            <h2>Install</h2>
+            <p class="center"> To install PCA-PAM50, please use the following code:</p>
+	    <p> if (!require("BiocManager"))
+			install.packages("BiocManager")
+		BiocManager::install("maftools") </p>
+
+<!--            <form id="downloadForm" action="php/downloadInc.php" method="post">
                 <label for="name">Full name:</label>
                 <input type="text" class="textBox" name="firstName" placeholder="First" required onkeyup="checkForm()">
                 <input type="text" class="textBox" name="lastName" placeholder="Last" required onkeyup="checkForm()">
                 <label for="email">Email address:</label>
                 <input type="email" id="emailInput" class="textBox full" name="email" placeholder="johndoe@gmail.com" required onkeyup="checkForm()">
                 <input type="submit" id="submitInfo" class="button" name="submitInfo" value="Submit" disabled="">
-            </form>
+            </form> -->
         </div>
         <div id="newsPage" class="hidden">
             <h2>News and Updates</h2>

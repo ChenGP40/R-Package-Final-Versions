@@ -4,7 +4,7 @@ const inst = document.getElementById("instructionsPage");
 const instSubpage = document.getElementById("instructionsPageSubpage");
 const instSubpageTwo = document.getElementById("instructionsPageSubpageTwo");
 const faq = document.getElementById("faqPage");
-const down = document.getElementById("downloadPage");
+const down = document.getElementById("installPage");
 const news = document.getElementById("newsPage");
 
 let allClasses = [desc, inst, instSubpage, instSubpageTwo, faq, down, news];
@@ -49,10 +49,10 @@ function triggerFaq() {
     window.location.hash = "#faq"
 }
 
-document.getElementById("downloadTrigger").addEventListener("click", () => {hideAll(); triggerDownload();})
-function triggerDownload() {
+document.getElementById("installTrigger").addEventListener("click", () => {hideAll(); triggerInstall();})
+function triggerInstall() {
     down.classList.remove("hidden");
-    window.location.hash = "#download"
+    window.location.hash = "#install"
 }
 
 document.getElementById("newsTrigger").addEventListener("click", () => {hideAll(); triggerNews();})
@@ -76,37 +76,37 @@ function subpageChanger() {
         triggerInstructionsSubpageTwo();
     } else if(hash == "#faq") {
         triggerFaq();
-    } else if(hash == "#download") {
-        triggerDownload();
+    } else if(hash == "#install") {
+        triggerInstall();
     } else {
         triggerNews();
     }
 }
 
 // Download Validation 
-function checkForm() {
-    let f = document.forms["downloadForm"].elements;
-    let cansubmit = true;
-    const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    document.getElementById('submitInfo').classList.remove("disabled");
+// function checkForm() {
+//     let f = document.forms["downloadForm"].elements;
+//     let cansubmit = true;
+//     const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+//     document.getElementById('submitInfo').classList.remove("disabled");
 
-    for (let i = 0; i < f.length; i++) {
-        if (f[i].value.length == 0) {
-            cansubmit = false;
-            document.getElementById('submitInfo').classList.add("disabled");
-        }
-        if (!emailInput.value.match(emailPattern)) {
-            cansubmit = false;
-            document.getElementById('submitInfo').classList.add("disabled");
-          }
-    }
-    document.getElementById('submitInfo').disabled = !cansubmit;
-}
+//     for (let i = 0; i < f.length; i++) {
+//         if (f[i].value.length == 0) {
+//             cansubmit = false;
+//             document.getElementById('submitInfo').classList.add("disabled");
+//         }
+//         if (!emailInput.value.match(emailPattern)) {
+//             cansubmit = false;
+//             document.getElementById('submitInfo').classList.add("disabled");
+//           }
+//     }
+//     document.getElementById('submitInfo').disabled = !cansubmit;
+// }
 
-function toPCA_PAM50() {
-    const link = document.createElement('a');
-    link.setAttribute('href', 'pca-pam50.html');
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-}
+// function toPCA_PAM50() {
+//     const link = document.createElement('a');
+//     link.setAttribute('href', 'pca-pam50.html');
+//     document.body.appendChild(link);
+//     link.click();
+//     link.remove();
+// }

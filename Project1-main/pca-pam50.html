@@ -22,21 +22,21 @@
         <a href="index.html" class="navbarHeader" title="Home">Tools Portal</a>
         <ul class="navigation">
             <li>Available Tools:</li>
-            <li class="selected">PCA-PAM50</li>
+            <li class="selected">PCAPAM50</li>
         </ul>  
 	</div>
 </nav>
 </header>
 
 <main>
-<h1>PCA-PAM50</h1>
+<h1>PCAPAM50</h1>
 <section class="toolInfo">
     <div class="sideContainer">
         <ul class="sideNav">
-            <li id="descriptionTrigger" class="sideNavLinks">What is PCA-PAM50?</li>
+            <li id="descriptionTrigger" class="sideNavLinks">What is PCAPAM50?</li>
             <li id="instructionsTrigger" class="sideNavLinks">Instructions</li>
-                <li id="instructionsTriggerSubpage" class="sideNavLinks indent">PCA-PAM50 Instructions</li>
-                <li id="instructionsTriggerSubpageTwo" class="sideNavLinks indent">Bioclassifier Instructions</li>
+                <li id="instructionsTriggerSubpage" class="sideNavLinks indent">The PCAPAM50 Approach</li>
+                <li id="instructionsTriggerSubpageTwo" class="sideNavLinks indent">The Conventional PAM50 Approach</li>
             <li id="faqTrigger" class="sideNavLinks">Frequently Asked Questions</li>
             <li id="installTrigger" class="sideNavLinks">Install</li>
             <li id="newsTrigger" class="sideNavLinks">News and Updates</li>
@@ -44,244 +44,181 @@
     </div>
     <div class="info">
         <div id="descriptionPage" class="hidden">
-            <h2>What is PCA-PAM50?</h2>
-            <p> PCA-PAM50 is used to perform intrinsic subtyping for breast cancer gene expression data. 
-                PCA-PAM50 leverages principal component analysis (PCA) and iterative PAM50 calls to derive the gene expression-based ER status. 
-                This generates an ER-balanced subset which is automatically used for gene centering and subsequent intrinsic calls. 
-                Thus, PCA-PAM50 performs intrinsic subtyping in ER status unbalanced cohorts. </p>
-            
-            <p> Input is just the normalized PAM50 gene expression matrix. </p>
-
-            <p> The package contains two R scripts:</p>
-<pre class="descriptionBlock">
-PCA-PAM50.R                     → makes use of two functions to make median values and subsequent PAM50 calls.
-functions_PCA-PAM50.R   → provides necessary functions.
-</pre> 
-            <p> The package comes with a sample/TEST PAM50 matrix to demonstrate running the program:<br>
-                'TEST.ihc' and 'TEST.matrix' is provided, substitute these to make calls for your data.<br>
-                To make conventional intrinsic calls that are only using IHC, use the function "makeCalls.ihc".</p>
-            <p> Refer to 'PCA-PAM50.R' to learn more, or click <a href="#" onclick="hideAll(); triggerInstructions(); return false;" title="Link to instructions page">here.</a></p>
-
-                <h3>Prerequisites</h3>
-
-            <p> <b>Hardware</b><br>
-                PCA-PAM50 is an R script and should run on any computer (Linux/Unix, Windows or Mac) with R installed. 
-                However it has only been tested on Linux/Ubuntu. </p>
-
-            <p> <b>Software</b><br>
-                Required libraries: </p>
-<pre class="codeBlock">
-gplots
-RColorBrewer
-lattice
-genefilter
-ctc
-heatmap.plus
-</pre>
-            <p> Libraries can be installed through R Bioconductor like this:</p>
-<pre class="codeBlock">
-<span class="kw">source</span>(<span class="str">"https://bioconductor.org/biocLite.R"</span>)
-<span class="kw">BiocLite</span>(library)
-</pre>
-
-                <h3>COPYRIGHT AND LICENSE</h3>
+            <h2>What is PCAPAM50?</h2>
+            <p style="text-align: justify;"> Accurate classification of breast cancer tumors based on gene expression data is not a trivial task, and it lacks standard practices. 
+                The PAM50 classifier makes calls based on the 50 gene centroid correlation distance to LA, LB, Basal, Her2 and normal-like centroids. 
+                However, the application of the PAM50 algorithm has its challenges. 
+                The two main challenges are (1) balancing estrogen receptor (ER) status and (2) the gene centering procedures. 
+                The PAM50 classifier works accurately if the original cohort/dataset is ER status-balanced. 
+                However, this is often not the case with most genome-wide studies. 
+                In such cases, a conventional strategy is to choose a subset which is ER status-balanced and use the median derived from that subset to gene center the entire cohort. 
+                In practice, an ER-balanced subset is chosen based on IHC-defined ER status. 
+                There have been reports of IHC-defined ER status, which is based on protein expression, not being completely consistent with ER status defined by gene expression. 
+                This inconsistency may impact the accuracy of the subsequent gene centering procedure which is aimed to minimize the bias of the dynamic range of the expression profile per sequencing technology. 
+                As a result, such inconsistency may contribute to the discrepancy between the IHC and PAM50 subtyping results. 
+                Hence, we explored the possibility of using a gene expression-based ER-balanced subset for gene centering leveraging principal component analyses (PCA) and iterative PAM50 calls to avoid introducing protein expression-based data into a gene expression-based subtyping method. 
+                The PCAPAM50 R package was created as a means to easily distribute this new method for tumor classification. </p>
                 
-            <p> Copyright 2018 Windber Reseach Institute, Windber, PA - 15963. All Rights Reserved. </p>
+            <h3>Package Structure</h3>
+            <img src="images/v2_Package_Flowchart.svg" style="max-width: 100%;">
+            <p class="caption">Diagram of Package Structure: View in a new tab for a larger image.</p>
+            <p style="text-align: justify;"> The PCAPAM50 package consists of 5 core directories. 
+                Each of their purposes and components can be seen in the above diagram.
+                Most notably, the package comes with sample and The Cancer Genome Atlas (TCGA) data to demonstrate running the program.
+                Further information and a step-by-step guide utilizing these datasets can be found on the <a href="#" onclick="hideAll(); triggerInstructions(); return false;" title="Link to instructions page">Instructions page</a>.
+                After testing, you can substitute these files to make calls for your data. </p>
+
+            <h3>Function Structure</h3>
+            <img src="images/Input_Output.svg" style="width: 75%; margin-left: 12.5%">
+            <p class="caption">Diagram of General Function Structure: View in a new tab for a larger image.</p>
+            <p style="text-align: justify;"> This is the general structure for the majority of the functions found in the package. 
+                Detailed usage and argument instructions can be found using <i>?function_name</i> in R or by viewing the manual.
+                Additionally, examples utilizing these functions can be found on the <a href="#" onclick="hideAll(); triggerInstructions(); return false;" title="Link to instructions page">Instructions page</a>.
             
+            <h3>Copyright and License</h3>
+            <p> Copyright 2018 Windber Reseach Institute, Windber, PA - 15963. All Rights Reserved. </p>
             <p> Contact:<br>
                 Developer: Praveen K. Raj Kumar [P.RajKumar@wriwindber.org]<br>
                 Lab director: Hai Hu [H.hu@wriwindber.org] </p>
-
             <p> This program is free software: you can redistribute it and/or modify it under
                 the terms of the GNU General Public License as published by the Free Software
                 Foundation, either version 3 of the License, or (at your option) any later
                 version. </p>
-
             <p> You should have received a copy of the GNU General Public License along with
                 this program. If not, see <a href="http://www.gnu.org/licenses/">GNU licenses</a>. </p>
         </div>
+
+<!-- Subpage Separation ------------------------------------------------------------------------------------------------------------> 
+
         <div id="instructionsPage" class="hidden">
             <h2>Instructions</h2>
         <div id="instructionsPageSubpage" class="hidden">
-            <h3>PCA-PAM50 Instructions</h3>
-            <p> Each function calls will make ER balance subset and subsequent PAM50 call.<br>
-                TEST.ihc and TEST.matrix are provided → substitute these to make calls for your data.<br>
-                To make conventional intrinsic call that is only using IHC, use the function "makeCalls.ihc".</p>
-<pre class="codeBlock"><span class="kw">source</span>(<span class="str">"functions_PCA-PAM50.R"</span>)</pre>
-<!-------------------------------------------------------------------------------------------------------------->            
-            <p class="extraPadding"> <b>Form Secondary ER-balanced set (refer to paper) leveraging PCA and subsequent intermediate intrinsic subtype</b><br>
-                This is first step of the PCA-PAM50 approach. </p>
+            <h3 style="margin-top: 0.5em; font-size: 175%">Pipeline Overview</h3>
+            <p> The PCAPAM50 pipeline consists of two steps: 
+                First, creating a gene expression-guided ER-balanced subset to make intermediate subtype calls, and second, using these intermediate subtype calls to perform a refined intrinsic subtyping called PCAPAM50. 
+                This page focuses on the PCAPAM50 appraoch. For instructions on the Conventional PAM50 approach, please visit its respective page. </p>
+      
+            <h3>1. makeCalls.PC1ihc - Intermediate Intrinsic Subtype Calls</h3>
+            <p> This function processes clinical IHC subtyping data and PAM50 gene expression data to form a gene expression-guided ER-balanced set.
+                This set is created by combining IHC classification information and using principal component 1 (PC1) to guide the separation.
+                The function computes the median for each gene in this ER-balanced set, updates a calibration file, and runs subtype prediction algorithms to generate intermediate intrinsic subtype calls based on the PAM50 method.
+                Various diagnostics and subtyping results are returned. </p>
 
-            <p> 1) Load the IHC subtype:</p><hr>
-            <p> We have provided the Test.ihc and matrix file for testing purposes.<br>
+            <p> 1) Load the Test data:</p><hr>
+            <p> The test data is derived from the TCGA breast cancer dataset. 
+                The test matrix is an upper-quartile (UQ) normalized log2(x+1) transformed dataset of PAM50 gene expression from RNA-Seq data. 
+                It is recommended to perform UQ normalization and log2 transformation on your input matrix to closely align with the scale of PAM50 centroids. </p>
+
 <pre class="codeBlock">
-<span class="kw">load</span>(<span class="str">"./Rdat/Sample_IHC_PAM-Mat.Rdat"</span>) <span class="comment"># [1] "Test.ihc"    "Test.matrix"</span>
-</pre>
+data_path <- <span class="kw">system.file</span>(<span class="str">"extdata"</span>, <span class="str">"Sample_IHC_PAM-Mat.Rdat"</span>, package = <span class="str">"PCAPAM50"</span>)
+<span class="kw">load</span>(data_path) <span class="comment"># Loads Test.ihc and Test.matrix</span></pre>
 
-            <p class="extraPadding"> 2) Add the ER status for the purpose of sorting:</p><hr>
-            <p> Benefit of sorting → function assumptions are easily met.<br>
-                Assumption is majority of ER+ was on PC1 neg and ER- on the PC1 pos. <br>
+            <p> 2) Prepare the Data:</p><hr>
+            <p> Ensure the clinical subtype data frame has a column “PatientID” matching the column names of the matrix. 
+                The IHC subtype column should be named “IHC,” with ER-positive subtypes starting with “L” (for luminals) and ER-negative subtypes not starting with “L.” 
+                In the test data, ER-positive cases are labeled “LA,” “LB1,” “LB2,” and ER-negative cases are labeled “TN” and “Her2+”. 
+                The data must be sorted properly: </p>
+
 <pre class="codeBlock">
-Test.ihc$ER_status = <span class="kw">rep</span>(<span class="str">"NA"</span>,<span class="kw">length</span>(Test.ihc$PatientID))
-Test.ihc$ER_status[<span class="kw">which</span>(Test.ihc$IHC %in% c("LA","LB1","LB2"))] = <span class="str">"pos"</span>
-Test.ihc$ER_status[<span class="kw">which</span>(Test.ihc$IHC %in% c("TN","Her2+"))] = <span class="str">"neg"</span>
+Test.ihc$ER_status <- <span class="kw">rep</span>(<span class="str">"NA"</span>, length(Test.ihc$PatientID))
 
-Test.ihc      = Test.ihc[<span class="kw">order</span>(Test.ihc$ER_status, <span class="dt">decreasing =</span> T),]
-Test.matrix   = Test.matrix[,Test.ihc$PatientID] <span class="comment"># Order test matrix using Test.ihc</span>
-</pre>
+Test.ihc$ER_status[<span class="kw">grep</span>(<span class="str">"^L"</span>,Test.ihc$IHC)] = <span class="str">"pos"</span>
 
-            <p> <b>Note</b> <br>
-                Clinical subtype data.frame required for the function should have a column "PatientID" with which mat colnames are also named. <br>
-                IHC subtype column should be named "IHC" <br>
-                IHC subtype are labelled like this "LA", "LB1", "LB2", "TN", "Her2+" <br>
-<pre class="codeBlock">df.cln = <span class="kw">data.frame</span>(<span class="dt">PatientID =</span> Test.ihc$PatientID, <span class="dt">IHC =</span> Test.ihc$IHC, <span class="dt">stringsAsFactors =</span> F) <span class="comment"># Even though Test.ihc has those two columns.</span></pre>
+Test.ihc$ER_status[-<span class="kw">grep</span>(<span class="str">"^L"</span>,Test.ihc$IHC)] = <span class="str">"neg"</span>
 
-            <p class="extraPadding"> 3) Setting the global variable for PAM50 function to use:</p> <hr>
+Test.ihc <- Test.ihc[<span class="kw">order</span>(Test.ihc$ER_status, decreasing = <span class="boo">TRUE</span>),] </pre>
+
+            <p> Display the sorted data:</p>
+
 <pre class="codeBlock">
-paramDir              = "./PAM50/bioclassifier_R/" <span class="comment"># PAM50dir from below function param -- PAM50 is provided here.</span>
-                        <span class="comment"># Obtained from <a href="https://genome-publications.bioinf.unc.edu/PAM50/" title="PAM50 Link" target="_blank">https://genome-publications.bioinf.unc.edu/PAM50/</a>.</span>
-                        <span class="comment"># *For more information and detailed instructions, please read the Bioclassifier section.</span>
-inputDir              = "./Call_wth_PC1ihcMd/" ;<span class="kw">dir.create</span>(inputDir) <span class="comment"># Warning if directory exists.</span>
-                        <span class="comment"># *It is safe to ignore the warning.</span>
-predFiles             = "./Rdat/TEST_pam_mat.txt" <span class="comment"># Provided inputFile for predictions.</span>
-                        <span class="comment"># write.table(Test.matrix, "./Rdat/TEST_pam_mat.txt", sep="\t", col.name=NA)</span>
-short                 = "TEST.PC1ihc.Mdns" <span class="comment"># Short name that will be used for output files -- ANY name is fine.</span>
-calibrationParameters = "Mdns.PC1ihc" <span class="comment"># Used for NM.mdns in function below -- Suffix for naming int-sbs column in o/p.</span>
-hasClinical 	      = FALSE <span class="comment"># We do not use clinical info anyways. </span>
-collapseMethod	      = "mean" <span class="comment"># Can be mean or iqr (probe with max iqr is selected).</span>
-                        <span class="comment"># *Pertains only to micorarray data.</span>
-Out.mdns.fl           = "mdns_TEST_PC1IHC.txt" <span class="comment"># Where new medians will be written -- Used for mdns.outFile</span>
-calibrationFile       = <span class="kw">paste</span>(paramDir, Out.mdns.fl, <span class="dt">sep = </span><span class="str">"/"</span>) <span class="comment"># mdns.outFile below -- *DO NOT change this*</span> 
-</pre>
-            <p class="extraPadding"> 4) Calling function to make secondary ER-balanced set and subsequent intermediate intrinsic subtype: </p><hr>
-            <p> LIST is returned and the elements are:
-<pre class="codeBlock">
-<span class="comment"># Int.sbs = Intrinsic subtype
-# score.fl = PAM50 o/p score
-# mdns.fl = medians file
-# SBS.colr = PAM50 o/p subtypeColors
-# outList = PAM50 o/p outList
-# PC1cutoff = data frame of Percentage of missclassified cases
-# DF.PC1 = Provided IHC data frame with PC1 and PC2</span>
+Test.ihc$ER_status=factor(Test.ihc$ER_status, levels=c("pos", "neg"))
+Test.ihc$IHC=factor(Test.ihc$IHC, levels=c("TN", "Her2+","LA", "LB1", "LB2"))
 
-sbs.PC1ihcMd = <span class="kw">makeCalls.PC1ihc</span>(df.cln, <span class="dt">seed =</span> 118, <span class="dt">mat =</span> Test.matrix, <span class="dt">NM.mdns =</span> calibrationParameters, <span class="dt">PAM50dir =</span> paramDir, <span class="dt">mdns.outFile =</span> Out.mdns.fl)
-</pre>
+table(Test.ihc$ER_status, Test.ihc$IHC)
+#      TN Her2+ LA LB1 LB2
+#  pos  0     0 19  65  27
+#  neg 23     7  0   0   0 </pre>
+
+            <p> Let’s examine the matrix. First, sort the test matrix using the IHC dataframe:</p>
+
 <pre class="codeBlock">
-<span class="kw">save</span>(sbs.PC1ihcMd, <span class="dt">file =</span> <span class="str">"./Rdat/Intrinsic-TESTdata_with_PC1ihcMedians.Rdat"</span>)
-<span class="kw">addmargins</span>(<span class="kw">table</span>(sbs.PC1ihcMd$Int.sbs$IHC, sbs.PC1ihcMd$Int.sbs$Int.SBS.Mdns.PC1ihc)) <span class="comment"># Just to check consistency.</span>
-</pre>
+Test.matrix <- Test.matrix[, Test.ihc$PatientID] </pre>
+
+            <p> Next, check the dimensions of the Test.matrix:</p>
+
+<pre class="codeBlock">
+dim(Test.matrix)
+#[1]  50 141 </pre>
+
+            <p> This matrix contains the 50 PAM50 genes and expression values for 141 samples. <br>
+                <b>Important note</b>: Ensure that your input matrix is also matched with the 50 gene names provided in the test matrix. </p>
+
+            <p> 3) Create the Clinical Subtype Data Frame:</p><hr>
+            <p> Create a clinical subtype data frame using the provided test files. The inputDir determines the output folder.
+
+<pre class="codeBlock">
+df.cln <- data.frame(PatientID = Test.ihc$PatientID, IHC = Test.ihc$IHC, stringsAsFactors = FALSE)
+
+inputDir <- "Call.PC1" </pre>
+
+            <p> 4) Call the Function:</p><hr>
+            <p> Run the makeCalls.PC1ihc function. Refer to the manual for detailed documentation on usage and arguments. Example run on test data: </p>
+
+<pre class="codeBlock">
+res.PC1 <- makeCalls.PC1ihc(df.cln = df.cln, seed = 118, mat = Test.matrix, inputDir = inputDir) </pre>
+
+            <p> The function returns a list containing:</p>
+
+<pre class="codeBlock">
+- Int.sbs - Data frame with integrated subtype and clinical data.
+- score.fl - Data frame with scores from subtype predictions.
+- mdns.fl - Data frame with median values for each gene in the ER-balanced set.
+- SBS.colr - Colors associated with each subtype from the prediction results.
+- outList - Detailed results from subtype prediction functions.
+- PC1cutoff - Cutoff values for PC1 used in subsetting.
+- DF.PC1 - Data frame of initial PCA results merged with clinical data. </pre>
+
+            <p> It generates a plot within the inputDir folder displaying the percentage of misclassified IHC cases along the PC1 axis with the vertical line identified as the cutoff. </p>
+
+PC1_misclassified_cases.png
+PC1_misclassified_cases.png
+
+            <p> A heatmap is also generated within the inputDir folder. </p>
+
+PC1ihc.Mdns_PAM50_normalized_heatmap.pdf
+
+<!------------------------------------------------------->   
+
+            <h3>2. makeCalls.v1PAM - PCAPAM50 Calls</h3>
+            <p> This function uses the intermediate intrinsic subtype calls to create an ER-balanced set. 
+                It internally selects an equal number of Basal and LumA cases to form this subset. </p>
+            
+            <p> 1) Call the Function:</p><hr>
+            <p> Call the function makeCalls.v1PAM() on test data. Refer to the manual for detailed documentation on usage and arguments. </p>
+
+<pre class="codeBlock">
+df.pc1pam = data.frame(PatientID=res.PC1$Int.sbs$PatientID,
+            PAM50=res.PC1$Int.sbs$Int.SBS.Mdns.PC1ihc,
+            IHC=res.PC1$Int.sbs$IHC,
+            stringsAsFactors=F) ### IHC column is optional
+  
+inputDir <- "Calls.PCAPAM50" 
+
+res.PCAPAM50 <- makeCalls.v1PAM(df.pam = df.pc1pam, seed = 118, mat = Test.matrix, inputDir=inputDir) </pre>
+
+            <p> The function returns a list containing:</p>
+
+<pre class="codeBlock">
+- Int.sbs - Data frame with integrated subtype and clinical data.
+- score.fl - Data frame with scores from subtype predictions.
+- mdns.fl - Data frame with median values for each gene in the ER-balanced set.
+- SBS.colr - Colors associated with each subtype from the prediction results.
+- outList - Detailed results from subtype prediction functions. </pre>
+
+            <p> A heatmap is generated within the inputDir folder. </p>
+       
  <!-------------------------------------------------------------------------------------------------------------->          
-            <p class="extraPadding"> <b>Compute Tertiary ER-balanced Subset (refer to paper) using intermediate intrinisc made above</b><br>
-                The final step of PCA-PAM50 approach → provides REFINED intrinisc subtype. </p>
-<pre class="codeBlock">
-<span class="kw">rm</span>(<span class="dt">list =</span> <span class="kw">ls</span>()) <span class="comment"># Remove everything from before.</span>
-<span class="kw">source</span>(<span class="str">"functions_PCA-PAM50.R"</span>) <span class="comment"># If you run this block separately.</span>
-</pre>
-<p>Load the following: </p>
-<pre class="codeBlock">
-# Load the intermediate PAM50 subtype.
-<span class="kw">load</span>(<span class="str">"./Rdat/Intrinsic-TESTdata_with_PC1ihcMedians.Rdat"</span>) <span class="comment"># Loads sbs.PC1ihcMd</span>
-# Load matrix pam50 norm.
-</pre>
-<p>Provided Test.ihc and matrix file for testing purposes: </p>
-<pre class="codeBlock">
-<span class="kw">load</span>(<span class="str">"./Rdat/Sample_IHC_PAM-Mat.Rdat"</span>) <span class="comment"># [1] "Test.ihc"    "Test.matrix"</span>
-</pre>
-            <p class="extraPadding"> 1) Call function - needs a data frame for PAM50 with --PatientID-- and ---PAM50--- </p> <hr>
-<pre class="codeBlock">
-df.pc1pam = <span class="kw">data.frame</span>(<span class="dt">PatientID =</span> sbs.PC1ihcMd$Int.sbs$PatientID, <span class="dt">PAM50 =</span> sbs.PC1ihcMd$Int.sbs$Int.SBS.Mdns.PC1ihc, <span class="dt">IHC =</span> sbs.PC1ihcMd$Int.sbs$IHC, <span class="dt">stringsAsFactors =</span> F)
-</pre>
-            <p> <b>Note</b> <br>
-                The IHC column is optional. </p>
 
-            <p class="extraPadding"> 2) Setting the global variable for PAM50 function to use </p> <hr>
-<pre class="codeBlock">
-paramDir              = "./PAM50/bioclassifier_R/" <span class="comment"># PAM50dir from below function param -- PAM50 is provided here.</span>
-                        <span class="comment"># Obtained from <a href="https://genome-publications.bioinf.unc.edu/PAM50/" title="PAM50 Link" target="_blank"> https://genome-publications.bioinf.unc.edu/PAM50/</a>.</span>
-                        <span class="comment"># *For more information and detailed instructions, please read the Bioclassifier section.</span>
-inputDir              = "./Call_wth_v1pamMd/" ;<span class="kw">dir.create</span>(inputDir) <span class="comment"># Warning if directory exists.</span>
-                        <span class="comment"># *It is safe to ignore the warning.</span>
-predFiles             = "./Rdat/TEST_pam_mat.txt" <span class="comment"># Provided inputFile for predictions.</span>
-                        <span class="comment"># write.table(Test.matrix, "./Rdat/TEST_pam_mat.txt", sep = "\t", col.name = NA)</span>
-short                 = "METd.v1pam.Mdns" <span class="comment"># Short name that will be used for output files -- ANY name is fine.</span>
-calibrationParameters = "Mdns.v1pam" <span class="comment"># Used for NM.mdns in function below -- Suffix for naming int-sbs column in o/p.</span>
-hasClinical 	      = FALSE <span class="comment"># We do not use clinical info anyways. </span>
-collapseMethod	      = "mean" <span class="comment"># Can be mean or iqr (probe with max iqr is selected).</span>
-                        <span class="comment"># *Pertains only to micorarray data.</span>
-Out.mdns.fl           = "mdns_TEST_v1pam.txt" <span class="comment"># Where new medians will be written -- Used for mdns.outFile</span>
-calibrationFile       = <span class="kw">paste</span>(paramDir, Out.mdns.fl, <span class="dt">sep = </span><span class="str">"/"</span>) <span class="comment"># mdns.outFile below -- *DO NOT change this*</span> 
-</pre>
-            <p class="extraPadding"> 3) Calling function to make tertiary ER-balanced set and subsequent refined intrinsic subtype </p> <hr>
-            <p> LIST is returned and the elements are: <br>
-<pre class="codeBlock">
-<span class="comment"># Int.sbs = Intrinsic subtype
-# score.fl = PAM50 o/p score
-# mdns.fl = medians file
-# SBS.colr = PAM50 o/p subtypeColors
-# outList = PAM50 o/p outList</span>
-
-sbs.v1pamMd = <span class="kw">makeCalls.v1PAM</span>(<span class="dt">df.pam =</span> df.pc1pam, <span class="dt">seed =</span> 118, <span class="dt">mat =</span> Test.matrix, <span class="dt">NM.mdns =</span> calibrationParameters, <span class="dt">PAM50dir =</span> paramDir, <span class="dt">mdns.outFile =</span> Out.mdns.fl)
-</pre>
-<pre class="codeBlock">
-<span class="kw">save</span>(sbs.v1pamMd, <span class="dt">file =</span> <span class="str">"./Rdat/Intrinsic-TESTdata_with_v1pamMedians.Rdat"</span>)
-<span class="kw">addmargins</span>(<span class="kw">table</span>(sbs.v1pamMd$Int.sbs$IHC, sbs.v1pamMd$Int.sbs$Int.SBS.Mdns.v1pam)) <span class="comment"># To check consistency if optional IHC provided.</span>
-</pre>
-<!-------------------------------------------------------------------------------------------------------------->
-            <p class="extraPadding"> <b>To form Primary ER-balanced set (refer to paper) and subsequent conventional intrinsic subtype</b> </p>
-<pre class="codeBlock">
-<span class="kw">rm</span>(<span class="dt">list =</span> <span class="kw">ls</span>()) <span class="comment"># Remove everything from before.</span>
-<span class="kw">source</span>(<span class="str">"functions_PCA-PAM50.R"</span>) <span class="comment"># If you run this block separately.</span>
-</pre>
-<p>Load the following: </p>
-<pre class="codeBlock">
-# Load the IHC subtype.
-</pre>
-<p>Provided Test.ihc and matrix file for testing purposes: </p>
-<pre class="codeBlock">
-<span class="kw">load</span>(<span class="str">"./Rdat/Sample_IHC_PAM-Mat.Rdat"</span>) <span class="comment"># [1] "Test.ihc"    "Test.matrix"</span>
-</pre>
-            <p> <b>Note</b> <br>
-                Clinical subtype data.frame required for the function should have a column "PatientID" with which mat colnames are also named. <br>
-                IHC subtype column should be named "IHC" <br>
-                IHC subtype are labelled like this "LA", "LB1", "LB2", "TN", "Her2+" </p>
-<pre class="codeBlock">df.cln = <span class="kw">data.frame</span>(<span class="dt">PatientID =</span> Test.ihc$PatientID, <span class="dt">IHC =</span> Test.ihc$IHC, <span class="dt">stringsAsFactors =</span> F) <span class="comment"># Even though Test.ihc has those two columns. </span></pre>
-
-            <p class="extraPadding"> 1) Setting the global variable for PAM50 function to use:</p> <hr>
-<pre class="codeBlock">
-paramDir              = "./PAM50/bioclassifier_R/" <span class="comment"># PAM50dir from below function param -- PAM50 is provided here.</span>
-                        <span class="comment"># Obtained from <a href="https://genome-publications.bioinf.unc.edu/PAM50/" title="PAM50 Link" target="_blank"> https://genome-publications.bioinf.unc.edu/PAM50/</a>.</span>
-                        <span class="comment"># *For more information and detailed instructions, please read the Bioclassifier section.</span>
-inputDir              = "./Call_wth_IHCMd/" ;<span class="kw">dir.create</span>(inputDir) <span class="comment"># Warning if directory exists.</span>
-                        <span class="comment"># *It is safe to ignore the warning.</span>
-                        <span class="comment"># The input data matrix as a tab delimited text file.</span>
-predFiles             = "./Rdat/TEST_pam_mat.txt" <span class="comment"># Provided inputFile for predictions.</span>
-                        <span class="comment"># write.table(Test.matrix, "./Rdat/TEST_pam_mat.txt", sep = "\t", col.name = NA)</span>
-short                 = "IHC.Mdns" <span class="comment"># Short name that will be used for output files -- ANY name is fine.</span>
-calibrationParameters = "Mdns.ihc" <span class="comment"># Used for NM.mdns in function below -- Suffix for naming int-sbs column in o/p.</span>
-hasClinical 	      = FALSE <span class="comment"># We do not use clinical info anyways. </span>
-collapseMethod	      = "mean" <span class="comment"># Can be mean or iqr (probe with max iqr is selected).</span>
-                        <span class="comment"># *Pertains only to micorarray data.</span>
-Out.mdns.fl           = "mdns_TEST_IHC.txt" <span class="comment"># Where new medians will be written -- Used for mdns.outFile</span>
-calibrationFile       = <span class="kw">paste</span>(paramDir, Out.mdns.fl, <span class="dt">sep = </span><span class="str">"/"</span>) <span class="comment"># mdns.outFile below -- *DO NOT change this*</span> 
-</pre>
-            <p class="extraPadding"> 2) Calling function to make primary ER-balanced set and subsequent conventional intrinsic subtype </p> <hr>
-            <p> LIST is returned and the elements are: <br>
-<pre class="codeBlock">
-<span class="comment"># Int.sbs = Intrinsic subtype
-# score.fl = PAM50 o/p score
-# mdns.fl = medians file
-# SBS.colr = PAM50 o/p subtypeColors
-# outList = PAM50 o/p outList</span>
-
-sbs.IHCmd = <span class="kw">makeCalls.ihc</span>(df.cln, <span class="dt">seed =</span> 118, <span class="dt">mat =</span> Test.matrix, <span class="dt">NM.mdns =</span> calibrationParameters, <span class="dt">PAM50dir =</span> paramDir, <span class="dt">mdns.outFile =</span> Out.mdns.fl)
-</pre>
-<pre class="codeBlock">
-<span class="kw">save</span>(sbs.IHCmd, <span class="dt">file =</span> <span class="str">"./Rdat/Intrinsic-TESTdata_with_ihcMedians.Rdat"</span>)
-<span class="kw">addmargins</span>(<span class="kw">table</span>(sbs.IHCmd$Int.sbs$Int.SBS.Mdns.ihc, sbs.IHCmd$Int.sbs$IHC)) <span class="comment"># To check consistency.
-
-# 8% consistency improvement (b/n conventional and refined intrinsic) with this TEST data.</span>
-</pre>
-            <p></p>
             <p> <b>OPTIONAL code to make PCA PLOT</b> </p>
 <pre class="codeBlock">
 <span class="kw">library</span>(DESeq)
@@ -294,52 +231,88 @@ XSet            = <span class="kw">ExpressionSet</span>(<span class="dt">assayDa
 
 my.plotPCA(XSet, <span class="dt">intgroup =</span> pData$condition, <span class="dt">ablne =</span> 2.4, <span class="dt">colours =</span> c("hotpink","darkblue","lightblue","lightblue3","red"))
 </pre>
-</div>
+        </div>
 <!-------------------------------------------------------------------------------------------------------------->
         <div id="instructionsPageSubpageTwo" class="hidden">
-            <h3>Bioclassifier Instructions</h3>
+            <h3 style="margin-top: .5em; font-size: 175%">The Conventional PAM50 Approach</h3>
+            <p> For comparison with PAM50 cases, we provide the function <i>makeCalls.ihc</i> to produce conventional PAM50 intrinsic subtype calls. 
+                Please note that the setup (loading the test data) is the same as in Step 1 of the PCAPAM50 approach. </p>
             
-            <p> The 'bioclassifier_R' folder contains all the functions and fixed parameters. 
-                You should not need to change anything in this folder, but there are some annotation files, the centroids file, 
-                and related information that you may want to be familiar with. </p>
+            <p> 1) Call the Function:</p><hr>
+            <p> Call the function makeCalls.ihc() on test data. Refer to the manual for detailed documentation on usage and arguments. </p>
+    
+<pre class="codeBlock">
+inputDir <- "Calls.PAM50"
 
-            <p> The directory named 'bioclassifier_example' contains two files - an example input data matrix, and an example of the parameter file to run the algorithm.
-                All changes should be made to this R file, and I have labeled the variables accordingly.  
-                As a first test, simply fill in the correct directory paths and source the file.
-                The output of this run should look like the set of files in the 'sampleOutput' sub-folder. </p>
+res.PAM50 <- makeCalls.ihc(df.cln = df.cln, seed = 118, mat = Test.matrix, inputDir = inputDir) </pre>
 
-            <p> As you are probably aware, measurement bias and population bias are often confounded when we attempt cross-platform classification.
-                When the test sample draws from the same population as the training set, then the population bias is less of a problem and simple approaches 
-                to adjusting for measurement bias (gene centering) tend to work quite well. 
-                However, as the test sample deviates from the training sample, 
-                the confounded effects become more difficult to overcome and allow for accurate classification.
-                An example of an extreme case would be a test sample that was all ER+. </p>
+            <p> The function returns a list containing:</p>
 
-            <p> One valuable resource in checking the pre-processing is if you have any true 'normal' samples.  
-                When true normal samples are not called 'normal-like', then it is an indicator of bias. </p>
+<pre class="codeBlock">
+- Int.sbs - Data frame with integrated subtype and clinical data.
+- score.fl - Data frame with scores from subtype predictions.
+- mdns.fl - Data frame with median values for each gene in the ER-balanced set.
+- SBS.colr - Colors associated with each subtype from the prediction results.
+- outList - Detailed results from subtype prediction functions. </pre>
 
-            <p> You are likely more informed of such issues than myself, but I feel I must give this disclaimer whenever I provide the code.  
-                I would be happy to discuss with you further regarding approaches for minimizing bias.  
-                Please let me know if you are interested, and please let me know if you have trouble running or interpreting the code. </p>
+            <p> A heatmap is generated within the inputDir folder. </p>
+            Ihc.Mdns_PAM50_normalized_heatmap.pdf
+            
         </div>
         </div>
+
+<!-- Subpage Separation ------------------------------------------------------------------------------------------------------------> 
+
         <div id="faqPage" class="hidden">
             <h2>Frequently Asked Questions</h2>
             <p class="center"> Nothing for now, check back later! </p>
         </div>
+
+<!-- Subpage Separation ------------------------------------------------------------------------------------------------------------>         
+
         <div id="installPage" class="hidden">
             <h2>Install</h2>
-            <p class="center"> To install PCA-PAM50, please use the following code:</p>
-<pre class="codeBlock">install. packages("pcapam50")</pre>
-<!--            <form id="downloadForm" action="php/downloadInc.php" method="post">
-                <label for="name">Full name:</label>
-                <input type="text" class="textBox" name="firstName" placeholder="First" required onkeyup="checkForm()">
-                <input type="text" class="textBox" name="lastName" placeholder="Last" required onkeyup="checkForm()">
-                <label for="email">Email address:</label>
-                <input type="email" id="emailInput" class="textBox full" name="email" placeholder="johndoe@gmail.com" required onkeyup="checkForm()">
-                <input type="submit" id="submitInfo" class="button" name="submitInfo" value="Submit" disabled="">
-            </form> -->
+            <h3 style="margin-top: 0.5em;">Prerequisites</h3>
+            <p> Ensure you have R version 4.0 or above installed on your computer or server. The PCAPAM50 package relies on other R packages available from CRAN and Bioconductor. 
+                To ensure compatibility, upgrade Bioconductor to the latest version (BiocManager v3.19). 
+                Once R and Bioconductor are properly installed, you can proceed with the installation process. </p>
+
+            <h3>Installing Dependencies</h3>
+            <p>Dependencies: Biobase, lattice, ComplexHeatmap, and impute. You can install these packages using the following commands:</p>
+
+<pre class="codeBlock">
+<span class="kw">if</span> (!<span class="kw">require</span>(<span class="str">"BiocManager"</span>, quietly = <span class="boo">TRUE</span>))
+    <span class="kw">install.packages</span>(<span class="str">"BiocManager"</span>)
+
+BiocManager::install(<span class="str">"ComplexHeatmap"</span>)
+BiocManager::install(<span class="str">"impute"</span>)
+BiocManager::install(<span class="str">"Biobase"</span>)
+<span class="kw">install.packages</span>(<span class="str">"lattice"</span>)
+</pre>
+
+            <h3>Installing PCA-PAM50</h3>
+            <p>To install PCA-PAM50 from CRAN, use the following command:</p>
+
+<pre class="codeBlock"><span class="kw">install.packages</span>(<span class="str">"PCAPAM50"</span>)</pre>
+
+            <p>Alternatively, to install the package from a tar.gz file, use:</p>
+
+<pre class="codeBlock"><span class="kw">install.packages</span>(<span class="str">"PCAPAM50_1.0.0.tar.gz"</span>, repos = <span class="boo">NULL</span>, type = <span class="str">"source"</span>)</pre>
+
+            <h3>Loading PCA-PAM50 and Dependencies</h3>
+            <p>After installation, load the PCAPAM50 package and the required libraries in your R session:</p>
+
+<pre class="codeBlock">
+<span class="kw">library</span>(<span class="str">"PCAPAM50"</span>)  
+<span class="kw">library</span>(<span class="str">"Biobase"</span>)  
+<span class="kw">library</span>(<span class="str">"lattice"</span>)  
+<span class="kw">library</span>(<span class="str">"ComplexHeatmap"</span>)  
+<span class="kw">library</span>(<span class="str">"impute"</span>)
+</pre>
         </div>
+
+<!-- Subpage Separation ------------------------------------------------------------------------------------------------------------> 
+
         <div id="newsPage" class="hidden">
             <h2>News and Updates</h2>
             <p class="center"> Nothing for now, check back later! </p>

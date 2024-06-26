@@ -131,13 +131,13 @@ Test.ihc <- Test.ihc[<span class="kw">order</span>(Test.ihc$ER_status, decreasin
             <p> Display the sorted data:</p>
 
 <pre class="codeBlock">
-Test.ihc$ER_status=factor(Test.ihc$ER_status, levels=c("pos", "neg"))
-Test.ihc$IHC=factor(Test.ihc$IHC, levels=c("TN", "Her2+","LA", "LB1", "LB2"))
+Test.ihc$ER_status=<span class="kw">factor</span>(Test.ihc$ER_status, levels=<span class="kw">c</span>(<span class="str">"pos"</span>, <span class="str">"neg"</span>))
+Test.ihc$IHC=<span class="kw">factor</span>(Test.ihc$IHC, levels=<span class="kw">c</span>(<span class="str">"TN"</span>, <span class="str">"Her2+"</span>, <span class="str">"LA"</span>, <span class="str">"LB1"</span>, <span class="str">"LB2"</span>))
 
-table(Test.ihc$ER_status, Test.ihc$IHC)
-#      TN Her2+ LA LB1 LB2
+<span class="kw">table</span>(Test.ihc$ER_status, Test.ihc$IHC)
+<span class="comment">#      TN Her2+ LA LB1 LB2
 #  pos  0     0 19  65  27
-#  neg 23     7  0   0   0 </pre>
+#  neg 23     7  0   0   0 </span></pre>
 
             <p> Let’s examine the matrix. First, sort the test matrix using the IHC dataframe:</p>
 
@@ -147,8 +147,8 @@ Test.matrix <- Test.matrix[, Test.ihc$PatientID] </pre>
             <p> Next, check the dimensions of the Test.matrix:</p>
 
 <pre class="codeBlock">
-dim(Test.matrix)
-#[1]  50 141 </pre>
+<span class="kw">dim</span>(Test.matrix)
+<span class="comment">#[1]  50 141</span> </pre>
 
             <p> This matrix contains the 50 PAM50 genes and expression values for 141 samples. <br>
                 <b>Important note</b>: Ensure that your input matrix is also matched with the 50 gene names provided in the test matrix. </p>

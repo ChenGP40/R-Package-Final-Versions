@@ -264,6 +264,10 @@ h3 {
     color: #902000;
 }
 
+.num {
+    color: #40a070;
+}
+
 .boo {
     color: rgb(135, 88, 189);
 }
@@ -275,7 +279,7 @@ h3 {
 }
 
 .comment {
-    color: #60a0b0;
+    color: #969696;
     font-style: italic;
 }
 

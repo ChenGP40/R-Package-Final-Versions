@@ -3,11 +3,13 @@ const desc = document.getElementById("descriptionPage");
 const inst = document.getElementById("instructionsPage");
 const instSubpage = document.getElementById("instructionsPageSubpage");
 const instSubpageTwo = document.getElementById("instructionsPageSubpageTwo");
+const instSubpageThree = document.getElementById("instructionsPageSubpageThree");
+const instSubpageFour = document.getElementById("instructionsPageSubpageFour");
 const faq = document.getElementById("faqPage");
 const down = document.getElementById("installPage");
 const news = document.getElementById("newsPage");
 
-let allClasses = [desc, inst, instSubpage, instSubpageTwo, faq, down, news];
+let allClasses = [desc, inst, instSubpage, instSubpageTwo, instSubpageThree, instSubpageFour, faq, down, news];
 
 var submitHash = ""
 
@@ -27,7 +29,6 @@ document.getElementById("instructionsTrigger").addEventListener("click", () => {
 function triggerInstructions() {
     inst.classList.remove("hidden");
     instSubpage.classList.remove("hidden");
-    instSubpageTwo.classList.remove("hidden");
     window.location.hash = "#instructions"
 }
 document.getElementById("instructionsTriggerSubpage").addEventListener("click", () => {hideAll(); triggerInstructionsSubpage();})
@@ -41,6 +42,18 @@ function triggerInstructionsSubpageTwo() {
     inst.classList.remove("hidden");
     instSubpageTwo.classList.remove("hidden");
     window.location.hash = "#instructionsSubpageTwo"
+}
+document.getElementById("instructionsTriggerSubpageThree").addEventListener("click", () => {hideAll(); triggerInstructionsSubpageThree();})
+function triggerInstructionsSubpageThree() {
+    inst.classList.remove("hidden");
+    instSubpageThree.classList.remove("hidden");
+    window.location.hash = "#instructionsSubpageThree"
+}
+document.getElementById("instructionsTriggerSubpageFour").addEventListener("click", () => {hideAll(); triggerInstructionsSubpageFour();})
+function triggerInstructionsSubpageFour() {
+    inst.classList.remove("hidden");
+    instSubpageFour.classList.remove("hidden");
+    window.location.hash = "#instructionsSubpageFour"
 }
 
 document.getElementById("faqTrigger").addEventListener("click", () => {hideAll(); triggerFaq();})
@@ -74,6 +87,10 @@ function subpageChanger() {
         triggerInstructionsSubpage();
     } else if(hash == "#instructionsSubpageTwo") {
         triggerInstructionsSubpageTwo();
+    } else if(hash == "#instructionsSubpageThree") {
+        triggerInstructionsSubpageThree();
+    } else if(hash == "#instructionsSubpageFour") {
+        triggerInstructionsSubpageFour();
     } else if(hash == "#faq") {
         triggerFaq();
     } else if(hash == "#install") {
@@ -103,10 +120,10 @@ function subpageChanger() {
 //     document.getElementById('submitInfo').disabled = !cansubmit;
 // }
 
-function toPCA_PAM50() {
-    const link = document.createElement('a');
-    link.setAttribute('href', 'pca-pam50.html');
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-}
+// function toPCA_PAM50() {
+//     const link = document.createElement('a');
+//     link.setAttribute('href', 'pca-pam50.html');
+//     document.body.appendChild(link);
+//     link.click();
+//     link.remove();
+// }

@@ -34,11 +34,11 @@
     <div class="sideContainer">
         <ul class="sideNav">
             <li id="descriptionTrigger" class="sideNavLinks">What is PCAPAM50?</li>
-            <li id="instructionsTriggerSubpage" class="sideNavLinks">Instructions</li>
+            <li id="instructionsTrigger" class="sideNavLinks">Instructions</li>
                 <li id="instructionsTriggerSubpage" class="sideNavLinks indent">The PCAPAM50 Approach</li>
                 <li id="instructionsTriggerSubpageTwo" class="sideNavLinks indent">The Conventional PAM50 Approach</li>
-		<li id="instructionsTriggerSubpageThree" class="sideNavLinks indent">PCA Plotting</li>
-		<li id="instructionsTriggerSubpageFour" class="sideNavLinks indent">Comparing Results - PCAPAM50 vs PAM50</li>
+            <li id="instructionsTriggerSubpageThree" class="sideNavLinks indent">PCA Plotting - my.plotPCA</li>
+            <li id="instructionsTriggerSubpageFour" class="sideNavLinks indent">Comparing Results - PCAPAM50 vs PAM50</li>
             <li id="faqTrigger" class="sideNavLinks">Frequently Asked Questions</li>
             <li id="installTrigger" class="sideNavLinks">Install</li>
             <li id="newsTrigger" class="sideNavLinks">News and Updates</li>
@@ -113,6 +113,7 @@
 
 <pre class="codeBlock">
 data_path <- <span class="kw">system.file</span>(<span class="str">"extdata"</span>, <span class="str">"Sample_IHC_PAM-Mat.Rdat"</span>, package = <span class="str">"PCAPAM50"</span>)
+
 <span class="kw">load</span>(data_path) <span class="comment"># Loads Test.ihc and Test.matrix</span></pre>
 
             <p> 2) Prepare the Data:</p><hr>
@@ -159,15 +160,15 @@ Test.matrix <- Test.matrix[, Test.ihc$PatientID] </pre>
             <p> Create a clinical subtype data frame using the provided test files. The inputDir determines the output folder.
 
 <pre class="codeBlock">
-df.cln <- data.frame(PatientID = Test.ihc$PatientID, IHC = Test.ihc$IHC, stringsAsFactors = FALSE)
+df.cln <- <span class="kw">data.frame</span>(PatientID = Test.ihc$PatientID, IHC = Test.ihc$IHC, stringsAsFactors = <span class="boo">FALSE</span>)
 
 inputDir <- "Call.PC1" </pre>
 
             <p> 4) Call the Function:</p><hr>
-            <p> Run the makeCalls.PC1ihc function. Refer to the manual for detailed documentation on usage and arguments. Example run on test data: </p>
+            <p> Run the <i>makeCalls.PC1ihc</i> function. Refer to the manual for detailed documentation on usage and arguments. Example run on test data: </p>
 
 <pre class="codeBlock">
-res.PC1 <- makeCalls.PC1ihc(df.cln = df.cln, seed = 118, mat = Test.matrix, inputDir = inputDir) </pre>
+res.PC1 <- <span class="kw">makeCalls.PC1ihc</span>(df.cln = df.cln, seed = 118, mat = Test.matrix, inputDir = inputDir) </pre>
 
             <p> The function returns a list containing:</p>
 
@@ -181,13 +182,12 @@ res.PC1 <- makeCalls.PC1ihc(df.cln = df.cln, seed = 118, mat = Test.matrix, inpu
 - DF.PC1 - Data frame of initial PCA results merged with clinical data. </pre>
 
             <p> It generates a plot within the inputDir folder displaying the percentage of misclassified IHC cases along the PC1 axis with the vertical line identified as the cutoff. </p>
-
-PC1_misclassified_cases.png
-PC1_misclassified_cases.png
+            <img src="images/PC1_misclassified_cases.png" style="width: 50%; margin-left: 25%">
+            <p class="caption">PC1_misclassified_cases.png</p>
 
             <p> A heatmap is also generated within the inputDir folder. </p>
-
-PC1ihc.Mdns_PAM50_normalized_heatmap.pdf
+            <img src="images/PC1ihc.Mdns_PAM50_normalized_heatmap.jpg" style="width: 70%; margin-left: 15%">
+            <p class="caption">PC1ihc.Mdns_PAM50_normalized_heatmap.pdf</p>
 
 <!------------------------------------------------------->   
 
@@ -196,17 +196,17 @@ PC1ihc.Mdns_PAM50_normalized_heatmap.pdf
                 It internally selects an equal number of Basal and LumA cases to form this subset. </p>
             
             <p> 1) Call the Function:</p><hr>
-            <p> Call the function makeCalls.v1PAM() on test data. Refer to the manual for detailed documentation on usage and arguments. </p>
+            <p> Call the function <i>makeCalls.v1PAM()</i> on test data. Refer to the manual for detailed documentation on usage and arguments. </p>
 
 <pre class="codeBlock">
-df.pc1pam = data.frame(PatientID=res.PC1$Int.sbs$PatientID,
+df.pc1pam = <span class="kw">data.frame</span>(PatientID=res.PC1$Int.sbs$PatientID,
             PAM50=res.PC1$Int.sbs$Int.SBS.Mdns.PC1ihc,
             IHC=res.PC1$Int.sbs$IHC,
-            stringsAsFactors=F) ### IHC column is optional
+            stringsAsFactors=<span class="boo">F</span>) ### IHC column is optional
   
 inputDir <- "Calls.PCAPAM50" 
 
-res.PCAPAM50 <- makeCalls.v1PAM(df.pam = df.pc1pam, seed = 118, mat = Test.matrix, inputDir=inputDir) </pre>
+res.PCAPAM50 <- <span class="kw">makeCalls.v1PAM</span>(df.pam = df.pc1pam, seed = 118, mat = Test.matrix, inputDir=inputDir) </pre>
 
             <p> The function returns a list containing:</p>
 
@@ -218,21 +218,8 @@ res.PCAPAM50 <- makeCalls.v1PAM(df.pam = df.pc1pam, seed = 118, mat = Test.matri
 - outList - Detailed results from subtype prediction functions. </pre>
 
             <p> A heatmap is generated within the inputDir folder. </p>
-       
- <!-------------------------------------------------------------------------------------------------------------->          
-
-            <p> <b>OPTIONAL code to make PCA PLOT</b> </p>
-<pre class="codeBlock">
-<span class="kw">library</span>(DESeq)
-<span class="kw">library</span>(gplots)
-
-pData           = <span class="kw">data.frame</span>(<span class="dt">condition =</span> Test.ihc$IHC)
-rownames(pData) = Test.ihc$PatientID
-phenoData       = <span class="kw">new</span>(<span class="str">"AnnotatedDataFrame"</span>, <span class="dt">data =</span> pData)#, varMetadata = Metadata
-XSet            = <span class="kw">ExpressionSet</span>(<span class="dt">assayData =</span> Test.matrix, <span class="dt">phenoData =</span> phenoData)
-
-my.plotPCA(XSet, <span class="dt">intgroup =</span> pData$condition, <span class="dt">ablne =</span> 2.4, <span class="dt">colours =</span> c("hotpink","darkblue","lightblue","lightblue3","red"))
-</pre>
+            <img src="images/pcapam50.Mdns_PAM50_normalized_heatmap.jpg" style="width: 70%; margin-left: 15%">
+            <p class="caption">PCAPAM50.Mdns_PAM50_normalized_heatmap.pdf</p>
         </div>
 <!-------------------------------------------------------------------------------------------------------------->
         <div id="instructionsPageSubpageTwo" class="hidden">
@@ -246,7 +233,7 @@ my.plotPCA(XSet, <span class="dt">intgroup =</span> pData$condition, <span class
 <pre class="codeBlock">
 inputDir <- "Calls.PAM50"
 
-res.PAM50 <- makeCalls.ihc(df.cln = df.cln, seed = 118, mat = Test.matrix, inputDir = inputDir) </pre>
+res.PAM50 <- <span class="kw">makeCalls.ihc</span>(df.cln = df.cln, seed = 118, mat = Test.matrix, inputDir = inputDir) </pre>
 
             <p> The function returns a list containing:</p>
 
@@ -258,8 +245,179 @@ res.PAM50 <- makeCalls.ihc(df.cln = df.cln, seed = 118, mat = Test.matrix, input
 - outList - Detailed results from subtype prediction functions. </pre>
 
             <p> A heatmap is generated within the inputDir folder. </p>
-            Ihc.Mdns_PAM50_normalized_heatmap.pdf
+            <img src="images/Ihc.Mdns_PAM50_normalized_heatmap.jpg" style="width: 70%; margin-left: 15%">
+            <p class="caption">Ihc.Mdns_PAM50_normalized_heatmap.pdf</p>
+        </div>
+<!-------------------------------------------------------------------------------------------------------------->
+        <div id="instructionsPageSubpageThree" class="hidden">
+            <h3 style="margin-top: .5em; font-size: 175%">PCA Plotting - my.plotPCA</h3>
+            <p>An example usage of this function is as follows:</p>
+<pre class="codeBlock">
+pData = <span class="kw">data.frame</span>(condition=Test.ihc$IHC)
+rownames(pData) = Test.ihc$PatientID
+phenoData = <span class="kw">new</span>(<span class="str">"AnnotatedDataFrame"</span>, data=pData)
+XSet      = <span class="kw">ExpressionSet</span>(assayData=Test.matrix, phenoData=phenoData)
+<span class="comment">#--Please ensure that the colors are ordered corresponding to the levels in your condition
+#--For example, my condition levels are Levels: TN Her2+ LA LB1 LB2 so the colors are </span>
+<span class="kw">my.plotPCA</span>(XSet, intgroup=pData$condition, ablne=2.4,
+        colours = <span class="kw">c</span>(<span class="str">"red"</span>, <span class="str">"hotpink"</span>, <span class="str">"darkblue"</span>, <span class="str">"lightblue"</span>, <span class="str">"lightblue3"</span>),
+        LINE.V = <span class="boo">T</span>)
+</pre>
+        </div>
+<!-------------------------------------------------------------------------------------------------------------->
+        <div id="instructionsPageSubpageFour" class="hidden">
+            <h3 style="margin-top: .5em; font-size: 175%">Comparing Results - PCAPAM50 vs PAM50</h3>
+            <p> This section demonstrates the improvement in the accuracy of PCAPAM50 subtyping over PAM50 subtyping. </p>
+
+            <h3>Test Data - PCAPAM50 vs PAM50</h3>
+            <p> For the test data, we compare the accuracy of PCAPAM50 subtyping over PAM50 subtyping by comparing the intrinsic subtype calls to the IHC calls.</p>
             
+            <p> Below is the comparison of test data PAM50 calls and IHC subtype calls agreement:</p>
+<pre class="codeBlock">
+res.PAM50$Int.sbs$IHC = <span class="kw">factor</span>(res.PAM50$Int.sbs$IHC, levels = <span class="kw">c</span>(<span class="str">"TN"</span>, <span class="str">"HER2+"</span>, <span class="str">"LA"</span>, <span class="str">"LB1"</span>, <span class="str">"LB2"</span>))
+<span class="kw">addmargins</span>(<span class="kw">table</span>(res.PAM50$Int.sbs$Int.SBS.Mdns.PAM50, res.PAM50$Int.sbs$IHC))
+<span class="comment">#          TN HER2+  LA LB1 LB2 Sum
+#  Basal   20     3   0   4   0  27
+#  Her2     2     3   0   0   4   9
+#  LumA     0     0  17  33  14  64
+#  LumB     1     0   2  26   9  38
+#  Normal   0     1   0   2   0   3
+#  Sum     23     7  19  65  27 141 </span></pre>
+            
+            <p> Agreements: </p>
+<pre class="codeBlock">
+Basal.TN agreement = <span class="num">20/27</span>
+Her2.HER2+ agreement = <span class="num">3/9</span>
+LumA.LA agreement = <span class="num">17/64</span>
+LumB.LB1/LB2 agreement = <span class="num">35/38</span> </pre>
+            
+            <p> Here is the comparison of test data PCAPAM50 calls and IHC subtype calls agreement: </p>
+<pre class="codeBlock">
+res.PCAPAM50$Int.sbs$IHC=<span class="kw">toupper</span>(res.PCAPAM50$Int.sbs$IHC)
+res.PCAPAM50$Int.sbs$IHC = <span class="kw">factor</span>(res.PCAPAM50$Int.sbs$IHC,levels = <span class="kw">c</span>(<span class="str">"TN"</span>, <span class="str">"HER2+"</span>, <span class="str">"LA"</span>, <span class="str">"LB1"</span>, <span class="str">"LB2"</span>))
+<span class="kw">addmargins</span>(<span class="kw">table</span>(res.PCAPAM50$Int.sbs$Int.SBS.Mdns.PCAPAM50, res.PCAPAM50$Int.sbs$IHC))
+<span class="comment">#          TN HER2+  LA LB1 LB2 Sum
+#  Basal   20     3   0   4   0  27
+#  Her2     2     4   0   0   4  10
+#  LumA     0     0  17  27  11  55
+#  LumB     1     0   2  33  12  48
+#  Normal   0     0   0   1   0   1
+#  Sum     23     7  19  65  27 141 </span></pre>
+            
+            <p> Agreements: </p>
+<pre class="codeBlock">
+Basal.TN agreement = <span class="num">20/27</span>
+Her2.HER2+ agreement = <span class="num">4/10</span>
+LumA.LA agreement = <span class="num">17/55</span>
+LumB.LB1/LB2 = <span class="num">45/48</span> </pre>
+            
+            <p> Upon comparison, we can see that PCAPAM50 has an overall agreement of 86/141 = 61%, which is an improvement of 7% over the PAM50 calls. 
+                If you closely examine the results, you will notice that the consistency of IHC LB subtype with LumB increased by 28.5%(35 to 45) with PCAPAM50.
+            
+            <h3>TCGA Data - PCAPAM50 vs PAM50</h3>
+            <p> In order to demonstrate improvements and replicate the results from the original paper, we obtained the 712 TCGA breast cancer cases from the original study where we derived IHC calls.
+                This data is provided with the PCAPAM50 package. Follow the examples below to run the analysis. 
+                The conventional PAM50 calls obtained in the paper are included in the dataset, so only running PCAPAM50 is necessary to show the improvement. </p>
+
+            <p> 1) Load TCGA data:</p><hr>
+<pre class="codeBlock">
+tcga_data_path <- <span class="kw">system.file</span>(<span class="str">"extdata"</span>, <span class="str">"TCGA.712BC_IHC_PAM-Mat.Rdat"</span>, package = <span class="str">"PCAPAM50"</span>)
+
+<span class="kw">load</span>(tcga_data_path) <span class="comment"># Loads "TCGA.712BC.IHC"  "TCGA.712BC.matrix"</span></pre>
+
+            <p> 2) Prepare the data:</p><hr>
+<pre class="codeBlock">
+TCGA.712BC.IHC$ER_status <- <span class="kw">rep</span>(<span class="str">"NA"</span>, length(TCGA.712BC.IHC$PatientID))
+
+TCGA.712BC.IHC$ER_status[<span class="kw">grep</span>(<span class="str">"^L"</span>,TCGA.712BC.IHC$IHC)] = <span class="str">"pos"</span>
+
+TCGA.712BC.IHC$ER_status[-<span class="kw">grep</span>(<span class="str">"^L"</span>,TCGA.712BC.IHC$IHC)] = <span class="str">"neg"</span>
+
+TCGA.712BC.IHC <- TCGA.712BC.IHC[<span class="kw">order</span>(TCGA.712BC.IHC$ER_status, decreasing = <span class="boo">TRUE</span>),] </pre>
+
+            <p> Display the sorted data:</p>
+
+<pre class="codeBlock">
+TCGA.712BC.IHC$ER_status=<span class="kw">factor</span>(TCGA.712BC.IHC$ER_status, levels=<span class="kw">c</span>(<span class="str">"pos"</span>, <span class="str">"neg"</span>))
+TCGA.712BC.IHC$IHC=<span class="kw">factor</span>(TCGA.712BC.IHC$IHC, levels=<span class="kw">c</span>(<span class="str">"TN"</span>, <span class="str">"Her2+"</span>, <span class="str">"LA"</span>, <span class="str">"LB1"</span>, <span class="str">"LB2"</span>))
+
+<span class="kw">table</span>(TCGA.712BC.IHC$ER_status, TCGA.712BC.IHC$IHC)
+<span class="comment">#       TN Her2+  LA LB1 LB2
+#  pos   0     0 111 325 123
+#  neg 116    37   0   0   0 </span></pre>
+
+            <p> Let’s examine the matrix. First, sort the test matrix using the IHC dataframe:</p>
+<pre class="codeBlock">
+TCGA.712BC.matrix <- TCGA.712BC.matrix[, TCGA.712BC.IHC$PatientID]
+
+<span class="kw">dim</span>(TCGA.712BC.matrix)
+<span class="comment">#[1]  50 712</span> </pre>
+
+            <p> This matrix has the 50 PAM50 genes and 712 sample expression values. This is already an upper-quartile (UQ) normalized log2(x+1) transformed dataset of PAM50 gene expression from RNA-Seq data. </p>
+
+            <p> 3) Create the Clinical Subtype Data Frame:</p><hr>
+<pre class="codeBlock">
+df.tcga.cln <- <span class="kw">data.frame</span>(PatientID = TCGA.712BC.IHC$PatientID, IHC = TCGA.712BC.IHC$IHC, stringsAsFactors = <span class="boo">FALSE</span>)
+
+inputDir <- "Call.PC1.TCGA" </pre>
+
+            <p> 4) Call the Function:</p><hr>
+<pre class="codeBlock">
+res.PC1 <- <span class="kw">makeCalls.PC1ihc</span>(df.cln = df.tcga.cln, seed = 118, mat = TCGA.712BC.matrix, inputDir = inputDir) </pre>
+
+            <p> 5) makeCalls.v1PAM:</p><hr>
+<pre class="codeBlock">
+df.pc1pam = <span class="kw">data.frame</span>(PatientID=res.PC1$Int.sbs$PatientID,
+            PAM50=res.PC1$Int.sbs$Int.SBS.Mdns.PC1ihc,
+            IHC=res.PC1$Int.sbs$IHC,
+            stringsAsFactors=<span class="boo">F</span>) ### IHC column is optional
+
+inputDir <- "Calls.PCAPAM50.TCGA" 
+
+TCGA.712BC.matrix = TCGA.712BC.matrix[,df.pc1pam$PatientID]
+res.PCAPAM50 <- <span class="kw">makeCalls.v1PAM</span>(df.pam = df.pc1pam, seed = 118, mat = TCGA.712BC.matrix, inputDir=inputDir)</pre>
+
+            <p> 6) PCAPAM50 vs PAM50:</p><hr>
+            <p> PAM50 vs IHC:</p>
+<pre class="codeBlock">
+<span class="kw">addmargins</span>(<span class="kw">table</span>(TCGA.712BC.IHC$PAM50_Given.Mdns, TCGA.712BC.IHC$IHC))
+<span class="comment">#          TN Her2+  LA LB1 LB2 Sum
+#  Basal  100     7   1  12   1 121
+#  Her2     9    29   0   4  19  61
+#  LumA     2     0 100 200  64 366
+#  LumB     1     0   5 100  36 142
+#  Normal   4     1   5   9   3  22
+#  Sum    116    37 111 325 123 712 </span></pre>
+            
+            <p>Agreements:</p>
+<pre class="codeBlock">
+Basal.TN agreement = <span class="num">100/121</span>
+Her2.HER2+ agreement = <span class="num">29/61</span>
+LumA.LA agreement = <span class="num">100/366</span>
+LumB.LB1/LB2 agreement = <span class="num">136/142</span> </pre>
+            
+            <p>PCAPAM50 vs IHC:</p>
+<pre class="codeBlock">
+res.PCAPAM50$Int.sbs$IHC=<span class="kw">toupper</span>(res.PCAPAM50$Int.sbs$IHC)
+res.PCAPAM50$Int.sbs$IHC = <span class="kw">factor</span>(res.PCAPAM50$Int.sbs$IHC,levels=<span class="kw">c</span>(<span class="str">"TN"</span>, <span class="str">"HER2+"</span>, <span class="str">"LA"</span>, <span class="str">"LB1"</span>, <span class="str">"LB2"</span>))
+<span class="kw">addmargins</span>(<span class="kw">table</span>(res.PCAPAM50$Int.sbs$Int.SBS.Mdns.PCAPAM50, res.PCAPAM50$Int.sbs$IHC))
+<span class="comment">#          TN HER2+  LA LB1 LB2 Sum
+#  Basal   99     7   0  12   1 119
+#  Her2    10    30   0   7  24  71
+#  LumA     3     0 103 168  43 317
+#  LumB     2     0   6 135  55 198
+#  Normal   2     0   2   3   0   7
+#  Sum    116    37 111 325 123 712 </span></pre>
+            
+            <p>Agreements:</p>
+<pre class="codeBlock">
+Basal.TN agreement = <span class="num">99/119</span>
+Her2.HER2+ agreement = <span class="num">30/71</span>
+LumA.LA agreement = <span class="num">103/317</span>
+LumB.LB1/LB2 agreement = <span class="num">190/198</span> </pre>
+
+            <p> Upon comparison, we can see that PCAPAM50 has an overall agreement of 422/712 = 59.3%, which is an improvement of 8% over the PAM50 calls. 
+                If you closely examine the results, you will notice that the consistency of IHC LB subtype with LumB increased by 39.7%(136 to 190) with PCAPAM50. </p>
         </div>
         </div>
 

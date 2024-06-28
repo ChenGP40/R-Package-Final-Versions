@@ -425,7 +425,29 @@ LumB.LB1/LB2 agreement = <span class="num">190/198</span> </pre>
 
         <div id="faqPage" class="hidden">
             <h2>Frequently Asked Questions</h2>
-            <p class="center"> Nothing for now, check back later! </p>
+            <p><b>Q: Do PCAPAM50 require IHC subtypes to be labeled as triple negative, HER2+, luminal A, B1, B2, etc.?</b></p>
+            <p>A: No, PCAPAM50 does not require the exact labeling of IHC subtypes. However, it is necessary to differentiate between ER-positive and ER-negative subtypes. Specifically, ER-positive subtypes should start with "L" (for luminals), and ER-negative subtypes should not start with "L". If you do not have the exact IHC subtypes, please make the best guess possible to determine whether a sample is luminal or non-luminal.</p>
+            <hr>
+            <p><b>Q: How do I make the best guess for an ER-positive and ER-negative sample?</b></p>
+            <p>A: The best guess can be made by examining the ESR1 gene expression (ER gene expression) after preprocessing (normalizing and log2-transforming the data). Plot the ESR1 gene expression levels and identify the high-end and low-end values. Generally, high-end values indicate ER-positive samples, while low-end values indicate ER-negative samples.</p>
+            <hr>
+            <p><b>Q: What is the data normalization recommended by PCAPAM50?</b></p>
+            <p>A: PCAPAM50 recommends using upper quartile normalization for your RNA-seq data, followed by log2(x+1) transformation. This method ensures that the data closely resembles the scale of PAM50 centroids.</p>
+            <hr>
+            <p><b>Q: What are the names of PAM50 genes? How can I find them?</b></p>
+            <p>A: You can identify the names of PAM50 genes by loading the test data provided with the PCAPAM50 package. The test matrix contains the gene names used in the PAM50 centroids. Note that some of these names might be old names or aliases of the current gene names. Ensure that these aliases are appropriately converted to match the gene names provided in the test matrix. Converting new names to those in the test matrix will help maintain consistency.</p>
+            <hr>
+            <p><b>Q: Can this package make the subtype calls without the knowledge of IHC subtypes? For example, in my dataset, we don't have IHC subtypes.</b></p>
+            <p>A: Yes, it is possible to make PCAPAM50 calls without the knowledge of IHC subtypes, but it requires a workaround. After preprocessing your dataset, plot the ESR1 gene expression to identify ER-positive and ER-negative samples. ER-positive samples can be labeled as luminals, and ER-negative samples as non-luminals. This approach will help you format the required inputs for PCAPAM50 functions, allowing you to make the necessary calls.</p>
+            <hr>
+            <p><b>Q: Can I use just one case to make a PCAPAM50 call?</b></p>
+            <p>A: No, you need a dataset with a minimum size of 30 cases representing both ER-positive and ER-negative samples.</p>
+            <hr>
+            <p><b>Q: Can I use a protein expression dataset for making PCAPAM50 calls?</b></p>
+            <p>A: PCAPAM50 is designed to make calls on RNA datasets. Moreover, the PAM50 centroids were developed based on RNA datasets. The dynamic ranges of RNA and protein expressions differ. If you believe the protein expressions of PAM50 genes correlate well with RNA expressions, you may try at your own risk.</p>
+            <hr>
+            <p><b>Q: How can I show my appreciation for your work?</b></p>
+            <p>A: You can show your appreciation by citing our work in your publications and presentations. If you feel particularly grateful, consider donating to our institute. As a non-profit research organization, your donations help make more projects possible. Thank you for your support!</p>
         </div>
 
 <!-- Subpage Separation ------------------------------------------------------------------------------------------------------------>         
